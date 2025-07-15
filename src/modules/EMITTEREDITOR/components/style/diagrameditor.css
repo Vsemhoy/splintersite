@@ -1,0 +1,30 @@
+.radial-editor {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+}
+
+.slider-wrapper {
+  position: absolute;
+  /* transform-origin: center; */
+  text-align: center;
+  /* width: 100px; */
+  /* height: 100px; */
+    position: absolute;
+    display: block;
+}
+
+.radial-slider {
+  writing-mode: bt-lr;
+  -webkit-appearance: slider-vertical;
+  width: 80px;
+  transform: rotate(-90deg);
+}
+
+.angle-label {
+  font-size: 10px;
+  color: #666;
+  margin-top: 5px;
+  display: none;
+}
