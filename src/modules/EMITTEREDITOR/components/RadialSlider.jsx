@@ -15,7 +15,7 @@ export const ORIENTATION = {
   'HORIZONTAL' : 2,
 };
 
-function RadialSlider({ onDataUpdate, sourceData, min=-36, max=6, rotation=90, step=1  }) {
+function RadialSlider({ onChange, sourceData, min=-36, max=6, rotation=90, step=1  }) {
   const containerRef = useRef(null);
   const [data, setData] = useState(Array(36).fill(0));
   
@@ -45,6 +45,11 @@ function RadialSlider({ onDataUpdate, sourceData, min=-36, max=6, rotation=90, s
         }
     }
 
+    useEffect(() => {
+      if (onChange){
+        onChange(data);
+      }
+    }, [data]);
 
 
   const calculatePositions = () => {
@@ -109,7 +114,7 @@ function RadialSlider({ onDataUpdate, sourceData, min=-36, max=6, rotation=90, s
   }, []);
 
   return (
-    <div style={{padding: '24px', background: 'red'}}>
+    <div style={{padding: '24px'}} className={'radial-container-wrapper'}>
       <div>
         <div className="radial-container" ref={containerRef}>
             {countData.map((item)=>(
@@ -137,6 +142,7 @@ function RadialSlider({ onDataUpdate, sourceData, min=-36, max=6, rotation=90, s
         </div>
             <TextArea value={JSON.stringify(data)}
                 onChange={setFromTextarea}
+                style={{opacity: '0.3'}}
             >
                 
             </TextArea>

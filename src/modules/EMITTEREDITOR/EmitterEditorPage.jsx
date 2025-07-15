@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber'
 import Diagram3D from './components/Diagram3D';
 import RadialSlider from './components/RadialSlider';
 import { Input } from 'antd';
+import RadialRechart from './components/RadialRechart';
 
 const EmitterEditorPage = (props) => {
 
@@ -11,6 +12,12 @@ const EmitterEditorPage = (props) => {
     const [minDiagramValue, setMinDiagramValue] = useState(-18);
     const [maxDiagramValue, setMaxDiagramValue] = useState(6);
     const [stepAccuracy, setstepAccuracy] = useState(1);
+
+    const [horizontalPattern, setHorizontalPattern] = useState([]);
+
+    // useEffect(() => {
+    //   console.log('hori', horizontalPattern)
+    // }, [horizontalPattern]);
 
 const [diagramData, setDiagramData] = useState([
     0,-0.1,-0.5,-1.1,-2,-2,-2,-3.3,-4.4,-6,
@@ -31,6 +38,7 @@ const [diagramData, setDiagramData] = useState([
           min={minDiagramValue}
           max={maxDiagramValue}
           step={stepAccuracy}
+          onChange={setHorizontalPattern}
         />
       </div>
 
@@ -39,9 +47,11 @@ const [diagramData, setDiagramData] = useState([
         <Input type="number" min={-180} max={-18} step={6} value={minDiagramValue} onChange={(ev)=>{setMinDiagramValue(ev.target.value)}} />
         <Input type="number" min={0} max={36} step={6} value={maxDiagramValue} onChange={(ev)=>{setMaxDiagramValue(ev.target.value)}} />
         <Input type="number" min={0.01} max={1} step={0.01} value={stepAccuracy} onChange={(ev)=>{setstepAccuracy(ev.target.value)}} />
+      <RadialRechart values={horizontalPattern} />
       </div>
 
     </div>
+
 
 
     </div>
