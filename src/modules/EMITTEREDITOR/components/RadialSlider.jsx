@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import './style/radialslider.css';
-import { Input, Slider } from 'antd';
+import { Button, Input, Slider } from 'antd';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Tooltip } from 'recharts';
 
 export const ORIENTATION = {
@@ -23,6 +23,7 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
   const [minDiagramValue, setMinDiagramValue] = useState(min);
   const [maxDiagramValue, setMaxDiagramValue] = useState(max);
   const [stepAccuracy, setStepAccuracy] = useState(step);
+  const [widthRange, setWidthRange] = useState(0);
 
     const chartContainerRef = useRef(null); // Ref для контейнера диаграммы
     const [chartSize, setChartSize] = useState(600); // Начальный размер диаграммы
@@ -61,6 +62,23 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
   }, [data]);
 
 
+  const makeSymmetric = () => {
+  let tempdiagram = [];
+    for (let i = 0 ; i < 19; i++)
+      {
+        let sor = valuesRef.current[i];
+        tempdiagram.push(sor);
+      };
+      for (let i = 17; i > 0; i--)
+      {
+        tempdiagram.push(tempdiagram[i]);
+      }
+      valuesRef.current = [...tempdiagram];
+      updateRechartData();
+      // patternarrays[currentIndex] = tempdiagram;
+      // ChartAddData(myChart);
+      // setRangeValuesToRange();
+  }
 
 
 
@@ -88,7 +106,7 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
       const offl = container.offsetLeft;
 
       result_data.push({
-        top: (offl * -0.1 + 0.5 * centerY * Yoffset + half - (offt * Yoffset / 2)) + "px",
+        top: (offl * -0.001 + 0.5 * centerY * Yoffset + half - (offt * Yoffset / 2)) + "px",
         left: (half * 0.50 + 0.5 * centerX * Xoffset - (offl * Xoffset / 2)) + "px",
         rotate: realDegree + 'deg',
         rot: realDegree,
@@ -102,9 +120,46 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
     return result_data;
   }, [forceUpdate, vertDiagramAngle]); // Добавляем forceUpdate в зависимости
 
-  const handleDataChange = useCallback((index, value) => {
+
+
+  const handleDataChange = useCallback((index, value, range) => {
     const numValue = parseFloat(value);
     valuesRef.current[index] = numValue;
+
+    if (range > 0){
+      let toLeft = 0;
+      let toRight = 0;
+      for (let x = 0; x < range; x++){
+        // console.log('widthRange', event)
+        let pickI = +index + +range;
+        if (pickI > 36){
+          pickI = +pickI - 36; 
+        }
+        let pickIr = +index - +range;
+        if (pickIr < 0){
+          pickIr = +pickIr + 36; 
+        }
+        let goalValue = valuesRef.current[pickI];
+        let goalValuer = valuesRef.current[pickIr];
+
+        let additor = (value - goalValue) / range;
+        let additorright = (value - goalValuer) / range;     
+        
+        let leftindex = +index - +x;
+        if (leftindex < 0){
+          leftindex = 36 + leftindex;
+        }
+              let rightindex = +index + +x;
+        if (rightindex > 36){
+          rightindex = rightindex - 36;
+        }
+        
+        //console.log(additor * x);
+          valuesRef.current[leftindex] = (+value - +(+additorright * x)).toFixed(2);
+          valuesRef.current[rightindex] = (value - (+additor * x)).toFixed(2);
+      } 
+    }
+
     updateRechartData();
     if (onChange) {
       onChange([...valuesRef.current]);
@@ -112,6 +167,9 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
     // Форсируем обновление для отображения нового значения
     setForceUpdate(prev => prev + 1);
   }, [onChange]);
+
+
+
 
   const updateRechartData = useCallback(() => {
     const newData = valuesRef.current.map((item, index) => ({
@@ -177,13 +235,14 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
                 <Input 
                   
                   type='range'
-                  onChange={(ev) => handleDataChange(item.index, ev.target.value)}
+                  onChange={(ev) => handleDataChange(item.index, ev.target.value, widthRange)}
                   value={valuesRef.current[item.index]}
                   min={minDiagramValue}
                   max={maxDiagramValue}
                   title={item.index * 10 + ' deg'}
                   step={stepAccuracy}
                 />
+                
                 <div>
                   <span
                     style={{ rotate: `${-item.rot}deg`, position: 'absolute' }}
@@ -207,6 +266,8 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
         <Input type="number" min={0} max={36} step={6} value={maxDiagramValue} onChange={(ev)=>{setMaxDiagramValue(ev.target.value)}} />
 
          <Slider  marks={stepMarks} defaultValue={1} step={null} min={0.01} max={6} value={stepAccuracy} onChange={setStepAccuracy}/>
+          <Slider defaultValue={0} min={0} max={18} value={widthRange} onChange={setWidthRange}/>
+         <Button onClick={makeSymmetric} >Symmetric</Button>
       </div></div>
     </>
   );
