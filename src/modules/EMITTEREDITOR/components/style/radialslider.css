@@ -6,7 +6,7 @@
   max-width: 600px;
   max-height: 600px;
   margin: 0 auto;
-  background-color: rgb(236, 236, 236);
+  /* background-color: rgb(236, 236, 236); */
 }
 
 .slider-wrapper {
@@ -52,4 +52,17 @@
     z-index: 99999;
     display: block;
     opacity: 1;
+}
+.radial-container-wrapper {
+  border: 1px solid gray;
+  padding: 6px;
+}
+.zero-degree {
+  /* color: red; */
+  /* outline: 1px solid red; */
+  background-color: rgba(255, 0, 0, 0.508);
+}
+.ninety-degree {
+  background-color: rgba(0, 140, 255, 0.508);
+  
 }

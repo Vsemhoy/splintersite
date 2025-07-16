@@ -8,7 +8,7 @@ import RadialRechart from './components/RadialRechart';
 
 const EmitterEditorPage = (props) => {
 
-  const [vertDiagramAngle, setVertDiagramAngle] = useState(90);
+    const [vertDiagramAngle, setVertDiagramAngle] = useState(90);
     const [minDiagramValue, setMinDiagramValue] = useState(-18);
     const [maxDiagramValue, setMaxDiagramValue] = useState(6);
     const [stepAccuracy, setstepAccuracy] = useState(1);
@@ -28,32 +28,49 @@ const [diagramData, setDiagramData] = useState([
 
   return (
     <div className={'spf-page-body'}>
+      <div className={'sp-mw-1600'}>
 
+
+    <div className={'sp-section'}>
+      <div className={'sp-pa-12'}>
+      <Input value={"HELLO"} ></Input>
+
+      </div>
+    </div>
+
+    <div className={'sp-section'}>
+    <div className={'sp-pa-12'}>
+    <div className={'col-3-3-1'}>
+        <RadialSlider
+          data={diagramData}
+          // rotation={vertDiagramAngle}
+          // min={minDiagramValue}
+          // max={maxDiagramValue}
+          // step={stepAccuracy}
+          onChange={setHorizontalPattern}
+        />
+
+    </div></div>
+    </div>
 
     <div style={{ display: 'flex', height: '100vh' }}>
       <div style={{ width: '50%', padding: '20px' }}>
         {/* <DiagramEditor data={diagramData} onDataChange={setDiagramData} /> */}
-        <RadialSlider 
-          rotation={vertDiagramAngle}
-          min={minDiagramValue}
-          max={maxDiagramValue}
-          step={stepAccuracy}
-          onChange={setHorizontalPattern}
-        />
+
       </div>
 
       <div>
-        <Input type="range" min={-180} max={180} value={vertDiagramAngle} step={90} onChange={(ev)=>{setVertDiagramAngle(ev.target.value)}} />
+        {/* <Input type="range" min={-180} max={180} value={vertDiagramAngle} step={90} onChange={(ev)=>{setVertDiagramAngle(ev.target.value)}} />
         <Input type="number" min={-180} max={-18} step={6} value={minDiagramValue} onChange={(ev)=>{setMinDiagramValue(ev.target.value)}} />
         <Input type="number" min={0} max={36} step={6} value={maxDiagramValue} onChange={(ev)=>{setMaxDiagramValue(ev.target.value)}} />
-        <Input type="number" min={0.01} max={1} step={0.01} value={stepAccuracy} onChange={(ev)=>{setstepAccuracy(ev.target.value)}} />
-      <RadialRechart values={horizontalPattern} />
+        <Input type="number" min={0.01} max={1} step={0.01} value={stepAccuracy} onChange={(ev)=>{setstepAccuracy(ev.target.value)}} /> */}
+      {/* <RadialRechart values={horizontalPattern} /> */}
       </div>
 
     </div>
 
 
-
+      </div>
     </div>
   );
 };
