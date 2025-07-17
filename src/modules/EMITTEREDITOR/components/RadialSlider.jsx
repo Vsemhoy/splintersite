@@ -63,21 +63,18 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
 
 
   const makeSymmetric = () => {
-  let tempdiagram = [];
+  let nextarray = [];
     for (let i = 0 ; i < 19; i++)
       {
-        let sor = valuesRef.current[i];
-        tempdiagram.push(sor);
+        let sim_value = valuesRef.current[i];
+        nextarray.push(sim_value);
       };
       for (let i = 17; i > 0; i--)
       {
-        tempdiagram.push(tempdiagram[i]);
+        nextarray.push(nextarray[i]);
       }
-      valuesRef.current = [...tempdiagram];
+      valuesRef.current = [...nextarray];
       updateRechartData();
-      // patternarrays[currentIndex] = tempdiagram;
-      // ChartAddData(myChart);
-      // setRangeValuesToRange();
   }
 
 
@@ -86,7 +83,7 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
     const container = containerRef.current;
     if (!container) return [];
     
-    const result_data = [];
+    const ranges_data = [];
     const width = container.clientWidth;
     const height = container.clientHeight;
     const half = Math.min(height, width) / 2;
@@ -94,30 +91,30 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
     const centerY = container.offsetTop + half;
     const radius = Math.min(centerX, centerY) * 0.8;
 
-    const degreecollection = [];
-    for (let i = 9; i < 36; i++) degreecollection.push(i * 10);
-    for (let i = 0; i < 11; i++) degreecollection.push(i * 10);
+    const degree_collection = [];
+    for (let i = 9; i < 36; i++) degree_collection.push(i * 10);
+    for (let i = 0; i < 11; i++) degree_collection.push(i * 10);
 
     for (let i = 0; i < 36; i++) {
       const realDegree = (i * 10) - vertDiagramAngle;
       const Yoffset = Math.sin((Math.PI / 180) * realDegree);
       const Xoffset = Math.cos((Math.PI / 180) * realDegree);
-      const offt = container.offsetTop;
-      const offl = container.offsetLeft;
+      const offset_top = container.offsetTop;
+      const offset_left = container.offsetLeft;
 
-      result_data.push({
-        top: (offl * -0.001 + 0.5 * centerY * Yoffset + half - (offt * Yoffset / 2)) + "px",
-        left: (half * 0.50 + 0.5 * centerX * Xoffset - (offl * Xoffset / 2)) + "px",
+      ranges_data.push({
+        top: (offset_left * -0.001 + 0.5 * centerY * Yoffset + half - (offset_top * Yoffset / 2)) + "px",
+        left: (half * 0.50 + 0.5 * centerX * Xoffset - (offset_left * Xoffset / 2)) + "px",
         rotate: realDegree + 'deg',
         rot: realDegree,
         width: half + 'px',
-        key: 'rancon_' + degreecollection[i],
-        title: degreecollection[i],
+        key: 'slider_' + degree_collection[i],
+        title: degree_collection[i],
         index: i,
       });
     }
     
-    return result_data;
+    return ranges_data;
   }, [forceUpdate, vertDiagramAngle]); // Добавляем forceUpdate в зависимости
 
 
@@ -127,20 +124,18 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
     valuesRef.current[index] = numValue;
 
     if (range > 0){
-      let toLeft = 0;
-      let toRight = 0;
       for (let x = 0; x < range; x++){
         // console.log('widthRange', event)
-        let pickI = +index + +range;
-        if (pickI > 36){
-          pickI = +pickI - 36; 
+        let p_index_left = +index + +range;
+        if (p_index_left > 36){
+          p_index_left = +p_index_left - 36; 
         }
-        let pickIr = +index - +range;
-        if (pickIr < 0){
-          pickIr = +pickIr + 36; 
+        let p_index_right = +index - +range;
+        if (p_index_right < 0){
+          p_index_right = +p_index_right + 36; 
         }
-        let goalValue = valuesRef.current[pickI];
-        let goalValuer = valuesRef.current[pickIr];
+        let goalValue = valuesRef.current[p_index_left];
+        let goalValuer = valuesRef.current[p_index_right];
 
         let additor = (value - goalValue) / range;
         let additorright = (value - goalValuer) / range;     
