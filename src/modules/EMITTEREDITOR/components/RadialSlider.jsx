@@ -48,7 +48,7 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
       }
 
       return () => {
-        resizeObserver.disconnect();
+        resizeObserver.disconnect(); 
       };
     }, []);
 
@@ -82,14 +82,14 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
   const countData = useMemo(() => {
     const container = containerRef.current;
     if (!container) return [];
-    
+    const correction = 1;
     const ranges_data = [];
-    const width = container.clientWidth;
-    const height = container.clientHeight;
+    const width = container.clientWidth * correction;
+    const height = container.clientHeight  * correction;
     const half = Math.min(height, width) / 2;
     const centerX = container.offsetLeft + half;
     const centerY = container.offsetTop + half;
-    const radius = Math.min(centerX, centerY) * 0.8;
+    // const radius = Math.min(centerX, centerY) * 0.8;
 
     const degree_collection = [];
     for (let i = 9; i < 36; i++) degree_collection.push(i * 10);
@@ -190,12 +190,12 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
 
 
   const stepMarks = {
-  0.01: '0.01',
-  0.1: '0.1',
-  1: '1',
-  3: '3',
-  6: '6',
-};
+    0.01: '0.01',
+    0.1: '0.1',
+    1: '1',
+    3: '3',
+    6: '6',
+  };
 
   return (
     <>
@@ -216,7 +216,7 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
         </RadarChart>
       </div>
 
-      <div style={{ padding: '24px' }} className={'radial-container-wrapper'}>
+      <div style={{ padding: '44px' }} className={'radial-container-wrapper'}>
         <div>
           <div className="radial-container" ref={containerRef}>
             {countData.map((item) => (
