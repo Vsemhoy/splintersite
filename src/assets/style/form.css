@@ -1,0 +1,17 @@
+.form-label {
+    color: var(--form-label-text-color);
+    font-size: smaller;
+}
+.form-block {
+    padding-bottom: 12px;
+}
+.form-block  input {
+    margin-top: 3px;
+}
+
+
+.section-label {
+    color: rgb(94, 94, 94);
+    font-weight: 700;
+    font-style: italic;
+}

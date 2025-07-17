@@ -6,6 +6,7 @@ import HomePage from './modules/HOMEPAGE/HomePage';
 
 import './assets/style/theme.css';
 import './assets/style/layout.css';
+import './assets/style/form.css';
 import MainMenuBlock from './components/Template/MainMenu/MainMenuBlock';
 
 function App() {

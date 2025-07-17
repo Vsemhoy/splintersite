@@ -10,7 +10,7 @@ export const ORIENTATION = {
   'HORIZONTAL': 2,
 };
 
-function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, rotation = 90, step = 1 }) {
+function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, rotation = 90, step = 1, label }) {
   const containerRef = useRef(null);
   
   // Используем ref для хранения значений и состояние для форсирования обновления
@@ -197,14 +197,21 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
     6: '6',
   };
 
+    const degMarks = {
+    0: '0°',
+    90: '90°',
+    180: '180°',
+    270: '270°',
+  };
+
   return (
     <>
       <div className={'radial-container-wrapper'}
       ref={chartContainerRef}
       style={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}
       >
-      
-        <RadarChart  outerRadius={chartSize * 0.4} // 40% от размера контейнера
+      <div className={'section-label'}>{label}</div>
+        <RadarChart  outerRadius={chartSize * 0.42} // 40% от размера контейнера
           width={chartSize}
           height={chartSize}
           data={rechartData}>
@@ -222,7 +229,8 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
             {countData.map((item) => (
               <div
                 // className={'slider-wrapper'}
-                className={`slider-wrapper ${item.index === 0 ? "zero-degree" : item.index === 9 ? "ninety-degree" : ""}`}
+                className={`slider-wrapper ${item.index === 0 ? "zero-degree" : 
+                item.index === 9 ? "ninety-degree" : item.index === 18 ? "eighty-degree" : item.index === 27 ? "twesty-degree" : ""}`}
                 style={{ top: item.top, left: item.left, rotate: item.rotate, width: item.width }}
                 title={item.title}
                 key={item.key}
@@ -234,7 +242,7 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
                   value={valuesRef.current[item.index]}
                   min={minDiagramValue}
                   max={maxDiagramValue}
-                  title={item.index * 10 + ' deg'}
+                  title={item.index * 10 + '°'}
                   step={stepAccuracy}
                 />
                 
@@ -255,15 +263,37 @@ function RadialSlider({ onChange, data = Array(36).fill(0), min = -36, max = 6, 
 
 
       <div className={'radial-container-wrapper'}>
-      <div className={'sp-pa-12'}>
-        <Input type="range" min={-180} max={180} value={vertDiagramAngle} step={90} onChange={(ev)=>{setVertDiagramAngle(ev.target.value)}} />
-        <Input type="number" min={-180} max={-18} step={6} value={minDiagramValue} onChange={(ev)=>{setMinDiagramValue(ev.target.value)}} />
-        <Input type="number" min={0} max={36} step={6} value={maxDiagramValue} onChange={(ev)=>{setMaxDiagramValue(ev.target.value)}} />
+        <div className={'sp-pa-12'}>
+          <div className={'form-block'}>
+            <div className={'form-label'}>Input rotation</div>
+            {/* <Input type="range" min={-180} max={180} value={vertDiagramAngle} step={90} onChange={(ev)=>{setVertDiagramAngle(ev.target.value)}} /> */}
 
-         <Slider  marks={stepMarks} defaultValue={1} step={null} min={0.01} max={6} value={stepAccuracy} onChange={setStepAccuracy}/>
-          <Slider defaultValue={0} min={0} max={18} value={widthRange} onChange={setWidthRange}/>
-         <Button onClick={makeSymmetric} >Symmetric</Button>
-      </div></div>
+            <Slider  marks={degMarks} defaultValue={90} step={null} min={0} max={270}  onChange={setVertDiagramAngle}/>
+          </div>
+
+          <div className={'form-block'}>
+            <div className={'form-label'}>Min value</div>
+              <Input type="number" min={-180} max={-18} step={6} value={minDiagramValue} onChange={(ev)=>{setMinDiagramValue(ev.target.value)}} />
+            </div>
+
+          <div className={'form-block'}>
+            <div className={'form-label'}>Max value</div>
+              <Input type="number" min={0} max={36} step={6} value={maxDiagramValue} onChange={(ev)=>{setMaxDiagramValue(ev.target.value)}} />
+            </div>
+
+          <div className={'form-block'}>
+            <div className={'form-label'}>Value step</div>
+              <Slider  marks={stepMarks} defaultValue={1} step={null} min={0.01} max={6} value={stepAccuracy} onChange={setStepAccuracy}/>
+            </div>
+
+            <div className={'form-block'}>
+              <div className={'form-label'}>Averaging width</div>
+              <Slider defaultValue={0} min={0} max={18} value={widthRange} onChange={setWidthRange}/>
+            </div>
+
+          <Button block onClick={makeSymmetric} >Make Symmetric</Button>
+        </div>
+      </div>
     </>
   );
 }

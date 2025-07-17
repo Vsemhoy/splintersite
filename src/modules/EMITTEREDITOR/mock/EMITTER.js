@@ -14,8 +14,16 @@ export const MOCK_SPEAKER = {
       "4000Hz": [0, -0.5, -1.6, ..., -0.5]
     }
   },
+  "power_settings": {
+    "type": "standard", // или "100v"
+    "sensitivity": 90, // дБ @ 1 Вт / 1 м
+    "nominal_power": 60, // Вт (для standard)
+    "max_power": 90, // Вт (максимальная допустимая мощность)
+    "impedance": 8, // Ом (для standard)
+    "fixed_power": [1, 3, 6, 10, 15, 30], // Вт (для 100v)
+    "rated_line_voltage": 100 // В (для 100v)
+  },
   "frequency_response": {
-    "sensitivity": 90,
     "min_frequency": 50,
     "max_frequency": 20000,
     "response_curve": [
@@ -57,6 +65,13 @@ export const MOCK_STAGE_SPEAKER = {
       "1000Hz": [0, -0.4, -0.8, -1.2, -1.6, -1.9, -2.3, -2.7, -3.1, -3.5, -3.9, -5, -6.8, -7.7, -8, -7.4, -6.2, -5, -5, -5, -6.2, -7.4, -8, -7.7, -6.8, -5, -3.9, -3.5, -3.1, -2.7, -2.3, -1.9, -1.6, -1.2, -0.8, -0.4],
       "4000Hz": [0, -0.5, -1.6, -2.9, -5.2, -7.1, -8.9, -10.8, -12.6, -14.4, -15.7, -17.1, -18.4, -19.8, -21.1, -17.8, -21.2, -22.7, -15, -22.7, -21.2, -17.8, -21.1, -19.8, -18.4, -17.1, -15.7, -14.4, -12.6, -10.8, -8.9, -7.1, -5.2, -2.9, -1.6, -0.5]
     }
+  },
+  "power_settings": {
+    "type": "100v",
+    "sensitivity": 88,
+    "max_power": 30,
+    "rated_line_voltage": 100,
+    "fixed_power": [1, 3, 6, 15, 30]
   },
   "frequency_response": {
     "sensitivity": 90,

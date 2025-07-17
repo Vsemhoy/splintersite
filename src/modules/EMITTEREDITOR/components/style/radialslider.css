@@ -60,9 +60,33 @@
 .zero-degree {
   /* color: red; */
   /* outline: 1px solid red; */
-  background-color: rgba(255, 0, 0, 0.508);
+  background-color: rgba(255, 0, 0, 0.682);
 }
 .ninety-degree {
-  background-color: rgba(0, 140, 255, 0.508);
+  background-color: rgba(0, 140, 255, 0.7);
   
+}
+
+.zero-degree::after {
+  display: block;
+  content: "0°";
+  position: absolute;
+}
+
+.ninety-degree::after {
+  display: block;
+  content: "90°";
+  position: absolute;
+}
+
+.eighty-degree::after {
+  display: block;
+  content: "180°";
+  position: absolute;
+}
+
+.twesty-degree::after {
+  display: block;
+  content: "270°";
+  position: absolute;
 }
