@@ -1,0 +1,68 @@
+.radial-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1/1; /* Квадратный контейнер */
+  max-width: 600px;
+  max-height: 600px;
+  margin: 0 auto;
+  /* background-color: rgb(236, 236, 236); */
+}
+
+.slider-wrapper {
+  position: absolute;
+  /* transform-origin: center; */
+  /* width: 400px; */
+  height: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radial-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  background: #ddd;
+  transform: rotate(-90deg);
+  /* Для вертикального слайдера */
+  writing-mode: bt-lr;
+}
+
+.radial-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.slider-wrapper input {
+    z-index: 1;
+    opacity: 0.5;
+    position: relative;
+    transition: all 0.3s;
+}
+
+.slider-wrapper input:hover {
+    z-index: 99999;
+    display: block;
+    opacity: 1;
+}
+.radial-container-wrapper {
+  border: 1px solid gray;
+  padding: 6px;
+}
+.zero-degree {
+  /* color: red; */
+  /* outline: 1px solid red; */
+  background-color: rgba(255, 0, 0, 0.508);
+}
+.ninety-degree {
+  background-color: rgba(0, 140, 255, 0.508);
+  
+}
